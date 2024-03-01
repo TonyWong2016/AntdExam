@@ -1,13 +1,19 @@
+'use client'
 import React, { useState } from 'react';
 import { AppstoreOutlined, QuestionCircleOutlined, SettingOutlined, FormOutlined, SignatureOutlined, LoginOutlined, BellOutlined, SmileOutlined, CodeOutlined, CodeSandboxOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import type { MenuProps, MenuTheme } from 'antd';
+import { Menu, message, notification } from 'antd';
+
+
 
 const items: MenuProps['items'] = [
     {
         label: '认证说明',
         key: 'introduce',
         icon: <QuestionCircleOutlined />,
+        onClick: () => {
+
+        }
     },
     {
         label: '信息填写',
@@ -48,18 +54,32 @@ const items: MenuProps['items'] = [
         ),
         key: 'login',
         icon: <LoginOutlined />,
+
     },
 ];
 
-const HeaderNav: React.FC = () => {
-    const [current, setCurrent] = useState('mail');
+interface HeaderStyle {
+    display: string;
+    alignItems: string;
+    theme: MenuTheme | undefined;
+}
 
+const HeaderNav: React.FC<HeaderStyle> = (style) => {
+    const [api, contextHolder] = notification.useNotification();
+    const [current, setCurrent] = useState('introduce');
+    //message.info("123")
+    //notification.success({ message: "123", description: "123" })
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e);
         setCurrent(e.key);
+        //handleSuccessClick()
     };
 
-    return <Menu className='text-xl' onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+
+    return (
+        <Menu onClick={onClick} style={{ "display": style.display, "alignItems": style.alignItems }} selectedKeys={[current]} mode="horizontal" items={items} theme={style.theme} />
+
+    )
 };
 
 export default HeaderNav;

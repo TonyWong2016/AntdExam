@@ -1,74 +1,54 @@
 'use client'
 import React from 'react';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import HeaderNav from '../ui/headernav';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
+import { Breadcrumb, Layout } from 'antd';
+import HeaderNav from '@/app/ui/headernav';
+import SideNav from '@/app/ui/sidenav';
 
-const { Content, Sider } = Layout;
-
-
-
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-    (icon, index) => {
-        const key = String(index + 1);
-
-        return {
-            key: `sub${key}`,
-            icon: React.createElement(icon),
-            label: `subnav ${key}`,
-
-            children: new Array(4).fill(null).map((_, j) => {
-                const subKey = index * 4 + j + 1;
-                return {
-                    key: subKey,
-                    label: `option${subKey}`,
-                };
-            }),
-        };
-    },
-);
-
-const App: React.FC = () => {
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
-
-    return (
-        <Layout>
-
-            <HeaderNav></HeaderNav>
+const { Content } = Layout;
+const RootLayout = ({ children }: React.PropsWithChildren) => (
+    <html lang="en">
+        <body>
             <Layout>
-                <Sider width={200} style={{ background: colorBgContainer }}>
-                    <Menu
-                        mode="inline"
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
-                        style={{ height: '100%', borderRight: 0 }}
-                        items={items2}
-                    />
-                </Sider>
-                <Layout style={{ padding: '0 24px 24px' }}>
-                    <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>Home</Breadcrumb.Item>
-                        <Breadcrumb.Item>List</Breadcrumb.Item>
-                        <Breadcrumb.Item>App</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <Content
-                        style={{
-                            padding: 24,
-                            margin: 0,
-                            minHeight: 280,
-                            background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
-                        }}
-                    >
-                        Content
-                    </Content>
+                <HeaderNav
+                    display={''}
+                    alignItems={'right'}
+                    theme='dark'
+                />
+
+                <Layout>
+                    <SideNav />
+
+
+                    <Layout style={{ padding: '0 24px 24px' }}>
+
+
+
+                    </Layout>
                 </Layout>
             </Layout>
-        </Layout>
-    );
-};
 
-export default App;
+            <AntdRegistry>{children}</AntdRegistry>
+        </body>
+    </html>
+);
+
+export default RootLayout;
+// const App: React.FC = ({ children }: { children: React.ReactNode }) => {
+
+
+//     return (
+// <Layout>
+
+//     <HeaderNav
+//         display={''}
+//         alignItems={'right'}
+//         theme='dark'
+//     />
+//     <SideNav />
+//     <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+// </Layout>
+//     );
+// };
+
+// export default App;
